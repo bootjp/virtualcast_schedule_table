@@ -7,5 +7,6 @@ CREATE TABLE `live` (
   `image` varchar(256) DEFAULT NULL,
   `description` varchar(1024) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `live_id` (`live_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  UNIQUE KEY `live_id` (`live_id`),
+  KEY `start` (`start`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
