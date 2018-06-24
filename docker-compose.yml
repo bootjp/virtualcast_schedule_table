@@ -1,0 +1,28 @@
+mariadb:
+  image: mariadb
+  ports:
+    - "3306:3306"
+  volumes:
+    - ./docker_init/:/docker-entrypoint-initdb.d/
+  environment:
+   #こちらは開発用を想定したものです．適宜変更してください
+    - MYSQL_DATABASE=vcas
+    - MYSQL_USER=vcas
+    - MYSQL_PASSWORD=vcas
+    - MYSQL_ROOT_PASSWORD=secret
+
+web:
+  build: .
+  volumes:
+    - ./:/webapp/
+  ports:
+    - "80:80"
+  links:
+    - mariadb
+  environment:
+   #こちらは開発用を想定したものです．適宜変更してください
+    - MYSQL_DATABASE=vcas
+    - MYSQL_USER=vcas
+    - MYSQL_PASSWORD=vcas
+    - MYSQL_ROOT_PASSWORD=secret
+    - MYSQL_HOST=mariadb
