@@ -26,7 +26,6 @@ $app->get('/', function () use($db) {
     }, $lives);
 
     return $templates->render('index', [
-        'title' => 'Hello',
         'lives' => $lives
     ]);
 });

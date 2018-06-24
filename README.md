@@ -1,4 +1,4 @@
-# virtualcast_-schedule_table
+# virtualcast-schedule_table
 
 * コントリビュート歓迎
 * 不明点はissuesから

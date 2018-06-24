@@ -23,8 +23,8 @@ $db = new Medoo\Medoo([
 ]);
 
 $rowExistsIds = $db->query('SELECT live_id FROM live ORDER BY live_id')->fetchAll();
-print_r($rowExistsIds);
 $exitsIds = [];
+// 探索コストを減らすためにkeyに入れる
 foreach ($rowExistsIds as $id) {
     $exitsIds[$id['live_id']] = null;
 }
@@ -42,7 +42,6 @@ $res = $client->get($baseUri, [
     ]
 ]);
 $res = $res->getBody()->getContents();
-$matchs = [];
 
 $dom = new PHPHtmlParser\Dom();
 $dom->load($res);
@@ -56,7 +55,7 @@ $lives = $html->find('.result-item');
 $result = [];
 
 foreach ($lives as $index => $live) {
-    $data = parseTitle($live->innerHtml);
+    $data = parse($live->innerHtml);
     $result[$index]['title'] = $data['title'];
     $result[$index]['live_id'] = $data['id'];
 
@@ -100,7 +99,7 @@ foreach ($result as $live) {
     }
 }
 
-function parseTitle($item) {
+function parse($item) {
     $matches = [];
     preg_match('#<a class="title" href=".+v=(?<id>.+?)&pp.+?">(?<title>.+?)</a>#', $item, $matches);
     return $matches;
