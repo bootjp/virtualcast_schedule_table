@@ -37,9 +37,8 @@
 <body>
 
 <div class="container-fluid">
-  <h1>バーチャルキャスト予約番組表</h1>
+  <h1>これから始まるバーチャルキャストの番組表</h1>
   <div class="row align-items-center">
-
     <?php foreach ($lives as $live) :?>
       <div class="col-xs54 col-md-5 live">
         <p><a href="https://nico.ms/<?php echo $live['live_id'];?>"><?php echo htmlentities($live['title']);?></a></p>
