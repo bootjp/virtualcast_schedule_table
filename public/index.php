@@ -20,6 +20,8 @@ $app->get('/', function () use($db) {
     $lives = $db->query('SELECT * FROM live WHERE start > NOW() ORDER BY start ASC')->fetchAll();
     $templates = new League\Plates\Engine(__DIR__ . '/../templates');
 
+    // http:// をhttps://に変換している
+    // DBでやらないのはniconico側が正式に対応するか不明なため
     $lives = array_map(function ($live) {
         $live['image'] = str_replace('http://', 'https://', $live['image']);
         return $live;
