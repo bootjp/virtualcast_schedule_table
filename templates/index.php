@@ -51,7 +51,7 @@
     <?php endforeach;?>
   </div>
 </div>
-
+@bootjp <a href="https://github.com/bootjp/virtualcast_schedule_table">バーチャルキャスト予約番組表</a>
 </body>
 </html>
 
