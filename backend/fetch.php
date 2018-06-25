@@ -49,12 +49,12 @@ $dom->load($res);
 /* @var $html PHPHtmlParser\Dom() */
 $html = $dom->find('.result-list')[0];
 
-$lives = $html->find('.result-item');
+$reserved = $html->find('.result-item');
 /* @var $live PHPHtmlParser\Dom() */
 
 $result = [];
 
-foreach ($lives as $index => $live) {
+foreach ($reserved as $index => $live) {
     $data = parse($live->innerHtml);
     $result[$index]['title'] = $data['title'];
     $result[$index]['live_id'] = $data['id'];

@@ -16,19 +16,29 @@ $db = new Medoo\Medoo([
 ]);
 
 $app->get('/', function () use($db) {
-    $db->exec('SET SESSION time_zone = Asia/Tokyo');
-    $lives = $db->query('SELECT * FROM live WHERE start > NOW() ORDER BY start ASC')->fetchAll();
+    $reservedLive = $db->query('SELECT * FROM live WHERE start > NOW() ORDER BY start ASC')->fetchAll();
+
+    // todo 完全に推測なのできちんとスクレイピングして生きている枠か判定する
+    $onAirLive = $db->query('SELECT * FROM live WHERE start < NOW() AND start > DATE_SUB(NOW(),INTERVAL 30 MINUTE) ORDER BY start ASC')->fetchAll();
     $templates = new League\Plates\Engine(__DIR__ . '/../templates');
 
     // http:// をhttps://に変換している
     // DBでやらないのはniconico側が正式に対応するか不明なため
-    $lives = array_map(function ($live) {
+
+    $reservedLive = array_map(function ($live) {
         $live['image'] = str_replace('http://', 'https://', $live['image']);
         return $live;
-    }, $lives);
+    }, $reservedLive);
+
+    $onAirLive = array_map(function ($live) {
+        $live['image'] = str_replace('http://', 'https://', $live['image']);
+        return $live;
+    }, $onAirLive);
 
     return $templates->render('index', [
-        'lives' => $lives
+        'current' => $onAirLive,
+        'reserved' => $reservedLive,
+
     ]);
 });
 
