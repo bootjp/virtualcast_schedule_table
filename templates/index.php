@@ -37,7 +37,7 @@
 <body>
 
 <div class="container-fluid">
-  <p>今の所「バーチャルキャスト」のタグがついているものだけを対象としています．詳しくは末尾のGitHubのリンクからREADMEを！</p>
+  <p>今の所「バーチャルキャスト」のタグがついているものだけを対象としています．<br/>詳しくは<a href="https://github.com/bootjp/virtualcast_schedule_table/blob/master/README.md">こちら</a></p>
   <?php if (count($current) > 0) :?>
   <h2>今やっているもの</h2>
   <p>予約時刻から30分以内のもの</p>
