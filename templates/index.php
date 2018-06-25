@@ -37,12 +37,30 @@
 <body>
 
 <div class="container-fluid">
-  <h1>これから始まるバーチャルキャストの番組表</h1>
+  <p>今の所「バーチャルキャスト」のタグがついているものだけを対象としています．詳しくは末尾のGitHubのリンクからREADMEを！</p>
+  <?php if (count($current) > 0) :?>
+  <h2>今やっているもの</h2>
+  <p>予約時刻から30分以内のもの</p>
   <div class="row align-items-center">
-    <?php foreach ($lives as $live) :?>
+      <?php foreach ($current as $live) :?>
+        <div class="col-xs54 col-md-5 live">
+          <p><a href="https://nico.ms/<?php echo $live['live_id'];?>"><?php echo htmlentities($live['title']);?></a></p>
+          <p><?php echo DateTime::createFromFormat('Y-m-d H:i:s', $live['start'])->format('Y年m月d日 H時i分');?>〜</p>
+          <img class="thumbnail" src="<?php echo $live['image'];?>" />
+          <div><p class="descriptions"><?php echo htmlentities($live['description']);?></p></div>
+          <div class="clear"></div>
+          <p><?php echo htmlentities($live['owner']);?></p>
+        </div>
+      <?php endforeach;?>
+  </div>
+  <?php endif;?>
+  <h2>これから始まるバーチャルキャストの番組表</h2>
+  <p>今後予定されている放送枠を直近順で表示中</p>
+  <div class="row align-items-center">
+    <?php foreach ($reserved as $live) :?>
       <div class="col-xs54 col-md-5 live">
         <p><a href="https://nico.ms/<?php echo $live['live_id'];?>"><?php echo htmlentities($live['title']);?></a></p>
-        <p><?php echo $live['start'];?>~</p>
+        <p><?php echo DateTime::createFromFormat('Y-m-d H:i:s', $live['start'])->format('Y年m月d日 H時i分');?>〜</p>
         <img class="thumbnail" src="<?php echo $live['image'];?>" />
         <div><p class="descriptions"><?php echo htmlentities($live['description']);?></p></div>
         <div class="clear"></div>
@@ -51,7 +69,7 @@
     <?php endforeach;?>
   </div>
 </div>
-
+<a href="https://twitter.com/bootjp">@bootjp</a>  <a href="https://github.com/bootjp/virtualcast_schedule_table">バーチャルキャスト予約番組表</a>
 </body>
 </html>
 
