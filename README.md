@@ -17,7 +17,7 @@ $ docker-compose up
 
 * DB構成は ./docker_init/create_table.sqlにあります．  
 * アプリケーション構成は Dockerfile及びdocker-compose.ymlを確認ください
-* 使用している docker image は[こちら](https://hub.docker.com/r/bootjp/virtualcast_schedule_table/builds/)です． 
+* 使用している docker image は[こちら](https://hub.docker.com/r/bootjp/virtualcast_schedule_table)です． 
 
 ## 環境について
  * backend/fetch.phpを15分おきに実行してください．
