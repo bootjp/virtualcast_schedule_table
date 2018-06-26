@@ -40,8 +40,7 @@ $res = $client->get($baseUri, [
         'filter' => ':reserved: :nocommunitygroup:',
         'kind' => 'tags',
     ]
-]);
-$res = $res->getBody()->getContents();
+])->getBody()->getContents();
 
 $dom = new PHPHtmlParser\Dom();
 $dom->load($res);
