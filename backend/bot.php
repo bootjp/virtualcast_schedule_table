@@ -45,8 +45,6 @@ $reserved = $html->find('.result-item');
 
 $result = [];
 
-//var_dump($reserved);exit;
-
 foreach ($reserved as $index => $live) {
     $data = parse($live->innerHtml);
     $result[$index]['title'] = $data['title'];
