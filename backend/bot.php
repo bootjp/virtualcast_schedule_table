@@ -82,7 +82,6 @@ foreach ($reserved as $index => $live) {
 
 }
 
-
 foreach ($result as $live) {
     $db = new Medoo\Medoo([
         'database_type' => 'mariadb',
@@ -92,19 +91,24 @@ foreach ($result as $live) {
         'password' => getenv('MYSQL_PASSWORD'),
         'charset' => 'utf8mb4',
     ]);
-    if ($db->query('SELECT * FROM notify_bot WHERE live_id = :live_id AND send = true ', [':live_id' =>  $live['live_id']])->fetch())  {
-        echo 'broken';
+
+    $count = $db->query('SELECT * FROM notify_bot WHERE live_id = :live_id AND send = true ',[
+        ':live_id' =>  $live['live_id']
+    ])->rowCount();
+
+    if ($count > 0)  {
         continue;
     }
 
-    $conn = null;
-    function ($endpoint) use ($conn, $live, $db) {
+    $conn = new \mpyw\Cowitter\Client([getenv('CK'), getenv('CS'), getenv('AT'), getenv('ATS')]);
+    $post = function ($endpoint) use ($conn, $live, $db) {
         $conn->post($endpoint, ['status' => "{$live['owner']}で{$live['title']}が始まったよ．https://nico.ms/{$live['live_id']}"]);
         $db->insert('notify_bot', [
             'live_id' => $live['live_id'],
             'send' => true,
         ]);
     };
+    $post('statuses/update');
 }
 
 function parse($item) {
