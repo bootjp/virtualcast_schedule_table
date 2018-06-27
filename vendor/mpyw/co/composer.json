@@ -1,0 +1,50 @@
+{
+    "name": "mpyw/co",
+    "description": "Asynchronous cURL executor simply based on resource and Generator",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "curl",
+        "http",
+        "asynchronous",
+        "parallel",
+        "generator"
+    ],
+    "authors": [
+        {
+            "name": "mpyw",
+            "email": "ryosuke_i_628@yahoo.co.jp"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "mpyw\\Co\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "lib-curl": ">=7.20.0",
+        "ext-Reflection": "*",
+        "react/promise": "^2.4"
+    },
+    "require-dev": {
+        "php": ">=7.0.0",
+        "codeception/aspect-mock": "^2.0",
+        "codeception/codeception": "^2.2",
+        "codeception/specify": "*",
+        "satooshi/php-coveralls": "^1.0",
+        "mpyw/privator": "^2.0"
+    },
+    "scripts": {
+        "test": [
+            "php vendor/bin/codecept run unit --coverage --coverage-xml"
+        ]
+    },
+    "archive": {
+        "exclude": [
+            "*",
+            ".*",
+            "!/src/*"
+        ]
+    }
+}
