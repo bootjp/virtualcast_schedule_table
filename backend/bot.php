@@ -64,11 +64,11 @@ foreach ($reserved as $index => $live) {
         break;
 
     case 'user':
-        $result[$index]['owner'] = $live->find('.provider-name')[0]->innerHtml;
+        $result[$index]['owner'] = html_entity_decode($live->find('.provider-name')[0]->innerHtml);
         break;
     }
 
-    $result[$index]['description'] = $live->find('.description-text')[0]->innerHtml;
+    $result[$index]['description'] = html_entity_decode($live->find('.description-text')[0]->innerHtml);
 }
 
 foreach ($result as $live) {
