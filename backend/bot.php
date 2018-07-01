@@ -99,6 +99,7 @@ foreach ($result as $live) {
                 'send' => true,
             ]);
         };
+        $db->pdo->commit();
     } catch (Exception $e) {
         $db->pdo->rollBack();
     }
