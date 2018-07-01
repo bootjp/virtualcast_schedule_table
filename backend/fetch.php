@@ -89,7 +89,6 @@ foreach ($reserved as $index => $live) {
 
 }
 
-
 foreach ($result as $live) {
     if (!array_key_exists($live['live_id'], $exitsIds)) {
         $db->insert('live', $live);
