@@ -20,7 +20,7 @@ $offSet = 0;
 $res = $client->get($baseUri, [
     'query' => [
         'track' => '',
-        'sort' => 'recent',
+        'sort' => 'recent_r',
         'date' => '',
         'keyword' => 'バーチャルキャスト',
         'filter' => ':hidecomonly:',
@@ -57,27 +57,18 @@ foreach ($reserved as $index => $live) {
     switch ($provider) {
     case 'official':
         $style = $live->find('.official-thumbnail')[0]->getAttribute('style'). "\n";;;
-        $matches = [];
-        preg_match('|background-image:url\((?<bg_url>.+?)\)|', $style, $matches);
         $result[$index]['owner'] = '公式';
-        $result[$index]['image'] = $matches['bg_url'];
         break;
     case 'channel':
         $result[$index]['owner'] = 'チャンネル';
-        $result[$index]['image'] = $live->find('.alt-thumbnail-provider-icon')[0]->getAttribute('src');
         break;
 
     case 'user':
         $result[$index]['owner'] = $live->find('.provider-name')[0]->innerHtml;
-        $matches = [];
-        $style = $live->find('.screenshot-thumbnail')[0]->getAttribute('style');
-        preg_match('|background-image:url\((?<bg_url>.+?)\)|', $style, $matches);
-        $result[$index]['image'] =  $matches['bg_url'];
         break;
     }
 
     $result[$index]['description'] = $live->find('.description-text')[0]->innerHtml;
-
 }
 
 foreach ($result as $live) {
@@ -90,22 +81,28 @@ foreach ($result as $live) {
         'charset' => 'utf8mb4',
     ]);
 
-    $count = $db->query('SELECT * FROM notify_bot WHERE live_id = :live_id AND send = true ',[
+    $tweeted = $db->query('SELECT * FROM notify_bot WHERE live_id = :live_id AND send = true ',[
         ':live_id' =>  $live['live_id']
-    ])->rowCount();
+    ])->rowCount() > 0;
 
-    if ($count > 0)  {
+    if ($tweeted)  {
         continue;
     }
 
-    $conn = new \mpyw\Cowitter\Client([getenv('CK'), getenv('CS'), getenv('AT'), getenv('ATS')]);
-    $post = function ($endpoint) use ($conn, $live, $db) {
-        $conn->post($endpoint, ['status' => "{$live['owner']}で{$live['title']}が始まったよ．https://nico.ms/{$live['live_id']}"]);
-        $db->insert('notify_bot', [
-            'live_id' => $live['live_id'],
-            'send' => true,
-        ]);
-    };
+    try {
+        $db->pdo->beginTransaction();
+        $conn = new \mpyw\Cowitter\Client([getenv('CK'), getenv('CS'), getenv('AT'), getenv('ATS')]);
+        $post = function ($endpoint) use ($conn, $live, $db) {
+            $conn->post($endpoint, ['status' => "{$live['owner']}で{$live['title']}が始まったよ．https://nico.ms/{$live['live_id']}"]);
+            $db->insert('notify_bot', [
+                'live_id' => $live['live_id'],
+                'send' => true,
+            ]);
+        };
+    } catch (Exception $e) {
+        $db->pdo->rollBack();
+    }
+
     $post('statuses/update');
 }
 
