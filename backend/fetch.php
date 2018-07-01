@@ -90,10 +90,16 @@ foreach ($reserved as $index => $live) {
 }
 
 foreach ($result as $live) {
-    if (!array_key_exists($live['live_id'], $exitsIds)) {
-        $db->insert('live', $live);
-    } else {
-        $db->update('live', $live);
+    try {
+        $db->pdo->beginTransaction();
+        if (!array_key_exists($live['live_id'], $exitsIds)) {
+            $db->insert('live', $live);
+        } else {
+            $db->update('live', $live);
+        }
+        $db->pdo->commit();
+    } catch (Exception $e) {
+        $db->pdo->rollBack();
     }
 }
 
