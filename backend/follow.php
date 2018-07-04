@@ -8,6 +8,7 @@ $doNotRemoveIds = [
     90569072 => '教授',
     296765763 => 'IL社',
     978095933358424064 => 'vcas公式',
+    968830278092300290 => 'あねえるたん'
 ];
 $unFollow = function ($user_id) use ($conn, $doNotRemoveIds) {
     if (array_key_exists($user_id, $doNotRemoveIds)) {
