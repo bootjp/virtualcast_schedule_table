@@ -25,20 +25,16 @@ $app->get('/', function () use($db) {
     // http:// をhttps://に変換している
     // DBでやらないのはniconico側が正式に対応するか不明なため
 
-    $reservedLive = array_map(function ($live) {
+    $ssl = function ($live) {
         $live['image'] = str_replace('http://', 'https://', $live['image']);
         return $live;
-    }, $reservedLive);
-
-    $onAirLive = array_map(function ($live) {
-        $live['image'] = str_replace('http://', 'https://', $live['image']);
-        return $live;
-    }, $onAirLive);
+    };
+    $reservedLive = array_map($ssl, $reservedLive);
+    $onAirLive = array_map($ssl, $onAirLive);
 
     return $templates->render('index', [
         'current' => $onAirLive,
         'reserved' => $reservedLive,
-
     ]);
 });
 
