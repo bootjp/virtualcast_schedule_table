@@ -7,6 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport" content="width=device-width">
+  <meta property="og:title" content="バーチャルキャスト番組表" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://vcas.bootjp.me/" />
+  <meta property="og:image" content="https://vcas.bootjp.me/ilust.jpg" />
+  <meta property="og:site_name"  content="バーチャルキャスト番組表" />
+  <meta property="og:description" content="バーチャルキャストで放送中｜放送予定の番組一覧を確認できます．" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@bootjp" />
   <title>バーチャルキャスト番組表</title>
   <style>
     .container-fluid {
