@@ -33,10 +33,10 @@
 
     .live {
       background-color: aliceblue;
-      margin: 10px;
+      padding: 10px;
       word-break: break-all;
-      padding: 20px;
       height: 370px;
+      border: solid #fff;
 
     }
 
