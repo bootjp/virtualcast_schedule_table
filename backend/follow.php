@@ -15,8 +15,8 @@ $unFollow = function ($user_id) use ($conn, $doNotRemoveIds) {
         return;
     }
     try {
-        echo "unfollow ${$user_id}\n";
-        $conn->post('friendships/destroy', compact('user_id'));
+        $user = $conn->post('friendships/destroy', compact('user_id'));
+        echo "unfollow $user->screen_name\n";
     } catch (Exception $e) {
         echo "ID{$user_id}: {$e->getMessage()}\n";
     }
@@ -24,8 +24,11 @@ $unFollow = function ($user_id) use ($conn, $doNotRemoveIds) {
 
 $follow = function ($user_id) use ($conn) {
     try {
-        echo "follow ${$user_id}\n";
-        $conn->post('friendships/create', compact('user_id'));
+        $user = $conn->get('users/show', compact('user_id'));
+        if (!$user->protected) {
+            $conn->post('friendships/create', compact('user_id'));
+            echo "follow $user->screen_name\n";
+        }
     } catch (Exception $e) {
         echo "ID{$user_id}: {$e->getMessage()}\n";
     }
