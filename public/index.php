@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+use Symfony\Component\HttpFoundation\Response;
+
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = new Silex\Application();
 
@@ -15,7 +17,7 @@ $db = new Medoo\Medoo([
     'charset' => 'utf8mb4',
 ]);
 
-$app->get('/', function () use($db) {
+$app->get('/', function () use ($db) {
     $reservedLive = $db->query('SELECT * FROM live WHERE start > NOW() ORDER BY start ASC')->fetchAll();
 
     // todo 完全に推測なのできちんとスクレイピングして生きている枠か判定する
@@ -37,5 +39,16 @@ $app->get('/', function () use($db) {
         'reserved' => $reservedLive,
     ]);
 });
+
+
+$app->get('/__health__', function () use ($db) {
+    try {
+        $db->exec('SELECT TRUE')->fetch();
+        return 'OK';
+    } catch (Exception $e) {
+        return new Response('NG', 500);
+    }
+});
+
 
 $app->run();
