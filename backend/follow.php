@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__. '/../vendor/autoload.php';
+require_once __DIR__. '/vendor/autoload.php';
 
 $conn = new \mpyw\Cowitter\Client([getenv('CK'), getenv('CS'), getenv('AT'), getenv('ATS')]);
 
