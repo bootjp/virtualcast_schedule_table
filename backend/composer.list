@@ -1,0 +1,11 @@
+Name                      Version  License  
+catfan/medoo              v1.5.7   MIT      
+guzzlehttp/guzzle         6.3.3    MIT      
+guzzlehttp/promises       v1.3.1   MIT      
+guzzlehttp/psr7           1.4.2    MIT      
+mpyw/co                   v1.5.4   MIT      
+mpyw/cowitter             v1.0.3   MIT      
+paquettg/php-html-parser  1.7.0    MIT      
+paquettg/string-encode    0.1.1    MIT      
+psr/http-message          1.0.1    MIT      
+react/promise             v2.7.0   MIT      
