@@ -9,10 +9,16 @@
 $ git clone https://github.com/bootjp/virtualcast_schedule_table.git
 $ cd virtualcast_schedule_table
 $ curl -s http://getcomposer.org/installer | php
+$ cd app
 $ php composer.phar install
 or
 $ composer install
 $ docker-compose up 
+```
+
+batches 
+```bash
+docker run bootjp/virtualcast_schedule_table php /app/backend/fetch.php
 ```
 
 * DB構成は ./docker_init/create_table.sqlにあります．  

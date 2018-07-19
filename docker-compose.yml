@@ -14,7 +14,7 @@ mariadb:
 web:
   build: .
   volumes:
-    - ./:/webapp/
+    - ./:/app/
   ports:
     - "80:80"
   links:
