@@ -1,8 +1,0 @@
-{
-  "require": {
-    "guzzlehttp/guzzle": "^6.3",
-    "paquettg/php-html-parser": "^1.7",
-    "mpyw/cowitter": "^1.0",
-    "catfan/Medoo": "^1.5"
-  }
-}
