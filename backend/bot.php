@@ -99,12 +99,11 @@ foreach ($result as $live) {
                 'send' => true,
             ]);
         };
+        $post('statuses/update');
         $db->pdo->commit();
     } catch (Exception $e) {
         $db->pdo->rollBack();
     }
-
-    $post('statuses/update');
 }
 
 function parse($item) {
