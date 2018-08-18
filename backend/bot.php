@@ -47,7 +47,7 @@ $result = [];
 
 foreach ($reserved as $index => $live) {
     $data = parse($live->innerHtml);
-    $result[$index]['title'] = $data['title'];
+    $result[$index]['title'] = html_entity_decode($data['title']);
     $result[$index]['live_id'] = $data['id'];
 
     $str = $live->find('.elapsed-time')[0]->innerHtml;
