@@ -13,11 +13,7 @@ $client = new \GuzzleHttp\Client([
     ]
 ]);
 
-
-
-$baseUri = 'http://live.nicovideo.jp/search';
-$offSet = 0;
-$res = $client->get($baseUri, [
+$res = $client->get('http://live.nicovideo.jp/search', [
     'query' => [
         'track' => '',
         'sort' => 'recent_r',
@@ -91,9 +87,16 @@ foreach ($result as $live) {
 
     try {
         $db->pdo->beginTransaction();
-        $conn = new \mpyw\Cowitter\Client([getenv('CK'), getenv('CS'), getenv('AT'), getenv('ATS')]);
+        $conn = new \mpyw\Cowitter\Client([
+            getenv('CK'),
+            getenv('CS'),
+            getenv('AT'),
+            getenv('ATS')
+        ]);
         $post = function ($endpoint) use ($conn, $live, $db) {
-            $conn->post($endpoint, ['status' => "{$live['owner']}で{$live['title']}が始まったよ．https://nico.ms/{$live['live_id']}"]);
+            $conn->post($endpoint, [
+                'status' => "{$live['owner']}で{$live['title']}が始まったよ．https://nico.ms/{$live['live_id']}"
+            ]);
             $db->insert('notify_bot', [
                 'live_id' => $live['live_id'],
                 'send' => true,
