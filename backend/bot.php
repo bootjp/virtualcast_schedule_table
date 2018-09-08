@@ -61,6 +61,7 @@ foreach ($reserved as $index => $live) {
 
     case 'user':
         $rowOwner = html_entity_decode($live->find('.provider-name')[0]->innerHtml);
+        $matches = [];
         preg_match('#(?<com_name>.+?) \((?<user_name>.+?)\)#', $rowOwner, $matches);
         $result[$index]['owner'] = $matches['user_name'];
         break;
