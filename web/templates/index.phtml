@@ -74,13 +74,13 @@
       <div class="row">
           <?php foreach ($current as $live) : ?>
             <div class="col-md-4 live">
-              <p><a href="https://nico.ms/<?php echo $live['live_id']; ?>"><?php echo htmlentities($live['title']); ?></a>
+              <p><a href="https://nico.ms/<?php echo $live['live_id']; ?>"><?php echo strip_tags($live['title']); ?></a>
               </p>
               <p><?php echo DateTime::createFromFormat('Y-m-d H:i:s', $live['start'])->format('Y年m月d日 H時i分'); ?>〜</p>
-              <img class="thumbnail" alt="<?php echo htmlentities($live['owner']);?> Logo" src="<?php echo $live['image']; ?>"/>
-              <div><p class="descriptions"><?php echo htmlentities($live['description']); ?></p></div>
+              <img class="thumbnail" alt="<?php echo strip_tags($live['owner']);?> Logo" src="<?php echo $live['image']; ?>"/>
+              <div><p class="descriptions"><?php echo strip_tags($live['description']); ?></p></div>
               <div class="clear"></div>
-              <p><?php echo htmlentities($live['owner']); ?></p>
+              <p><?php echo strip_tags($live['owner']); ?></p>
             </div>
           <?php endforeach; ?>
       </div>
@@ -108,12 +108,12 @@
       <?php endif;
       ?>
     <div class="col-md-4 live">
-      <p><a href="https://nico.ms/<?php echo $live['live_id']; ?>"><?php echo htmlentities($live['title']); ?></a></p>
+      <p><a href="https://nico.ms/<?php echo $live['live_id']; ?>"><?php echo strip_tags($live['title']); ?></a></p>
       <p><?php echo $currentDate->format('H時i分'); ?>〜</p>
-      <img class="thumbnail" alt="<?php echo htmlentities($live['owner']);?> Logo" src="<?php echo $live['image']; ?>"/>
-      <div><p class="descriptions"><?php echo htmlentities($live['description']); ?></p></div>
+      <img class="thumbnail" alt="<?php echo strip_tags($live['owner']);?> Logo" src="<?php echo $live['image']; ?>"/>
+      <div><p class="descriptions"><?php echo strip_tags($live['description']); ?></p></div>
       <div class="clear"></div>
-      <p><?php echo htmlentities($live['owner']); ?></p>
+      <p><?php echo strip_tags($live['owner']); ?></p>
     </div>
       <?php $lastDate = $currentDate; ?>
       <?php endforeach; ?>
