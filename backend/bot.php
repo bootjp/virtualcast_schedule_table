@@ -60,7 +60,9 @@ foreach ($reserved as $index => $live) {
         break;
 
     case 'user':
-        $result[$index]['owner'] = html_entity_decode($live->find('.provider-name')[0]->innerHtml);
+        $rowOwner = html_entity_decode($live->find('.provider-name')[0]->innerHtml);
+        preg_match('#(?<com_name>.+?) \((?<user_name>.+?)\)#', $rowOwner, $matches);
+        $result[$index]['owner'] = $matches['user_name'];
         break;
     }
 
@@ -95,7 +97,7 @@ foreach ($result as $live) {
         ]);
         $post = function ($endpoint) use ($conn, $live, $db) {
             $conn->post($endpoint, [
-                'status' => "{$live['owner']}で{$live['title']}が始まったよ．https://nico.ms/{$live['live_id']}"
+                'status' => "{$live['owner']} さんが {$live['title']} というタイトルで放送を始めたよ． https://nico.ms/{$live['live_id']}"
             ]);
             $db->insert('notify_bot', [
                 'live_id' => $live['live_id'],
