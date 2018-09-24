@@ -95,7 +95,7 @@ foreach ($result as $live) {
         if (!array_key_exists($live['live_id'], $exitsIds)) {
             $db->insert('live', $live);
         } else {
-            $db->update('live', $live);
+            $db->update('live', $live, ['live_id' => $live['live_id']]);
         }
         $db->pdo->commit();
     } catch (Exception $e) {
