@@ -27,7 +27,7 @@ docker run bootjp/virtualcast_schedule_table php /app/backend/fetch.php
 
 ## 環境について
  * backend/fetch.phpを15分おきに実行してください．
- * backend/check.phpを毎事10分に実行してください．
+ * backend/check.phpを毎時10分に実行してください．
  * 現段階では負荷対策は一切行っておらず，また予約番組数が増えた際の対応も行っておりません．
  * 現段階においては「バーチャルキャスト」タグが付与された予約番組のみを対象としています．
  
