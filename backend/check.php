@@ -26,7 +26,6 @@ $liveIds = $db->query('SELECT * FROM live WHERE start > NOW() ORDER BY start ASC
 
 foreach ($liveIds as $live) {
     $uri = "http://live.nicovideo.jp/watch/{$live['live_id']}";
-    echo "$uri\n";
     $body = $client->get($uri)->getBody()->getContents();
 
     if (mb_strpos($body, 'この番組は放送者により削除されました。') !== false) {
