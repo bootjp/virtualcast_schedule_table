@@ -65,6 +65,13 @@
 </head>
 
 <body>
+<div class="container" style="text-align: center;border: 10px dotted #e21212; margin-bottom: 20px">
+  <h2>メンテナンスのお知らせ</h2>
+  <p>2018年12月11日(火) 10時00分 - 2018年12月11日(火) 16時00分 </p>
+  <p>2018年12月12日(水) 10時00分 - 2018年12月12日(水) 16時00分 </p>
+  <p>メンテナンス予想作業時間は前述の告知時間のうち、約1時間程度を予定しております。</p>
+  <p>こちらはサーバー貸出元のさくらのVPS側のハードウェアメンテナンスになります。</p>
+</div>
 <div class="container-fluid ">
   <p>今の所「バーチャルキャスト」のタグがついているニコ生のものだけを対象としています．</p>
   <p><a href="https://twitter.com/notify_vcas">新着番組通知TwitterBot</a></p>
@@ -72,17 +79,17 @@
       <h2 style="text-align: center">放送中の予約枠</h2>
       <p>予約時刻から30分以内のもの</p>
       <div class="row">
-          <?php foreach ($current as $live) : ?>
-            <div class="col-md-4 live">
-              <p><a href="https://nico.ms/<?php echo $live['live_id']; ?>"><?php echo strip_tags($live['title']); ?></a>
-              </p>
-              <p><?php echo DateTime::createFromFormat('Y-m-d H:i:s', $live['start'])->format('Y年m月d日 H時i分'); ?>〜</p>
-              <img class="thumbnail" alt="<?php echo strip_tags($live['owner']);?> Logo" src="<?php echo $live['image']; ?>"/>
-              <div><p class="descriptions"><?php echo strip_tags($live['description']); ?></p></div>
-              <div class="clear"></div>
-              <p><?php echo strip_tags($live['owner']); ?></p>
-            </div>
-          <?php endforeach; ?>
+        <?php foreach ($current as $live) : ?>
+          <div class="col-md-4 live">
+            <p><a href="https://nico.ms/<?php echo $live['live_id']; ?>"><?php echo strip_tags($live['title']); ?></a>
+            </p>
+            <p><?php echo DateTime::createFromFormat('Y-m-d H:i:s', $live['start'])->format('Y年m月d日 H時i分'); ?>〜</p>
+            <img class="thumbnail" alt="<?php echo strip_tags($live['owner']);?> Logo" src="<?php echo $live['image']; ?>"/>
+            <div><p class="descriptions"><?php echo strip_tags($live['description']); ?></p></div>
+            <div class="clear"></div>
+            <p><?php echo strip_tags($live['owner']); ?></p>
+          </div>
+        <?php endforeach; ?>
       </div>
     <?php endif; ?>
   <h2 style="text-align: center">これから始まるバーチャルキャストの番組表</h2>
