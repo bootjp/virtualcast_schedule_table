@@ -33,7 +33,6 @@ foreach ($liveIds as $live) {
             $db->pdo->beginTransaction();
             $db->delete('live', ['live_id' => $live['live_id']]);
             $db->pdo->commit();
-            echo "DELETED {$live['live_id']}\n";
         } catch (Exception $e) {
             $db->pdo->rollBack();
         }
