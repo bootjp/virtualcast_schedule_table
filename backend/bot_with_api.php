@@ -24,9 +24,8 @@ foreach (json_decode($res, true)['list'] as $live) {
             getenv('ATS')
         ]);
         $post = function ($endpoint) use ($conn, $live, $db, $liveID) {
-            echo  "{$live['nickname']} が {$live['title']} というタイトルで放送を始めたよ． https://nico.ms/{$live['live_id']}";
             $conn->post($endpoint, [
-                'status' => "{$live['nickname']} が {$live['title']} というタイトルで放送を始めたよ． https://nico.ms/{$liveID}"
+                'status' => "{$live['nickname']} が {$live['title']} というタイトルで放送を始めたよ． {$live['url']}"
             ]);
             $db->insert('notify_bot', [
                 'live_id' => $liveID,
