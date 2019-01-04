@@ -71,24 +71,14 @@ foreach ($reserved as $index => $live) {
 }
 
 foreach ($result as $live) {
-    $db = new Medoo\Medoo([
-        'database_type' => 'mariadb',
-        'database_name' => getenv('MYSQL_DATABASE'),
-        'server' => getenv('MYSQL_HOST'),
-        'username' => getenv('MYSQL_USER'),
-        'password' => getenv('MYSQL_PASSWORD'),
-        'charset' => 'utf8mb4',
-    ]);
-
-    $tweeted = $db->query('SELECT * FROM notify_bot WHERE live_id = :live_id AND send = true ',[
-        ':live_id' =>  $live['live_id']
-    ])->rowCount() > 0;
+    $tweeted = liveIDTweeted($live['live_id']);
 
     if ($tweeted)  {
         continue;
     }
 
     try {
+        $db = getDB();
         $db->pdo->beginTransaction();
         $conn = new \mpyw\Cowitter\Client([
             getenv('CK'),
@@ -118,5 +108,35 @@ function parse($item) {
     return $matches;
 }
 
+/**
+ * @param $url
+ * @return string
+ */
+function getLiveIDByURL(string $url) : string {
+    return mb_substr($url, mb_strpos($url, 'lv'));
+}
 
+/**
+ * @param string $liveID
+ * @return bool
+ */
+function liveIDTweeted(string $liveID) : bool {
+    $db = getDB();
 
+    $count = $db->query('SELECT * FROM notify_bot WHERE live_id = :live_id AND send = true ', [
+        ':live_id' =>  $liveID
+    ])->rowCount();
+
+    return $count > 0;
+}
+
+function getDB() :Medoo\Medoo {
+    return (new Medoo\Medoo([
+        'database_type' => 'mariadb',
+        'database_name' => getenv('MYSQL_DATABASE'),
+        'server' => getenv('MYSQL_HOST'),
+        'username' => getenv('MYSQL_USER'),
+        'password' => getenv('MYSQL_PASSWORD'),
+        'charset' => 'utf8mb4',
+    ]));
+}
