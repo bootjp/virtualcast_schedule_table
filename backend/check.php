@@ -39,7 +39,7 @@ foreach ($liveIds as $live) {
             $db->pdo->rollBack();
         }
     }
-    sleep(1);
+    sleep(3);
 }
 
 
