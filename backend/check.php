@@ -7,9 +7,9 @@ require_once __DIR__. '/vendor/autoload.php';
 $client = new Client([
     'cookies' => false,
     'headers' => [
-        'User-Agent' => 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3713.0 Safari/537.36',
-        'Accept' =>  'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-        'Accept-Encoding' =>  'gzip, deflate, br',
+        'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3713.0 Safari/537.36',
+        'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+        'Accept-Encoding' => 'gzip, deflate, br',
         'Accept-Language' => 'ja,en-US;q=0.9,en;q=0.8',
         'Cache-Control' => 'no-cache',
     ]
