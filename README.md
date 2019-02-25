@@ -1,4 +1,6 @@
 # virtualcast-schedule_table
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbootjp%2Fvirtualcast_schedule_table.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbootjp%2Fvirtualcast_schedule_table?ref=badge_shield)
+
 
 * コントリビュート歓迎
 * 不明点はissuesから
@@ -36,3 +38,7 @@ docker run bootjp/virtualcast_schedule_table php /app/backend/fetch.php
  * リファクタリングを行う
  * 負荷対策を行う
  * デザインなんとかする
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbootjp%2Fvirtualcast_schedule_table.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbootjp%2Fvirtualcast_schedule_table?ref=badge_large)
