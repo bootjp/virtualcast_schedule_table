@@ -15,16 +15,6 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     // todo 完全に推測なのできちんとスクレイピングして生きている枠か判定する
     $onAirLive = $db->query('SELECT * FROM live WHERE start < NOW() AND start > DATE_SUB(NOW(),INTERVAL 30 MINUTE) ORDER BY start ASC')->fetchAll();
 
-    // http:// をhttps://に変換している
-    // DBでやらないのはniconico側が正式に対応するか不明なため
-
-    $ssl = function ($live) {
-        $live['image'] = str_replace('http://', 'https://', $live['image']);
-        return $live;
-    };
-    $reservedLive = array_map($ssl, $reservedLive);
-    $onAirLive = array_map($ssl, $onAirLive);
-
     return $renderer->render($response, 'index.phtml', [
         'current' => $onAirLive,
         'reserved' => $reservedLive,
