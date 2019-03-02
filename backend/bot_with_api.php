@@ -63,7 +63,7 @@ function liveIDTweeted(string $liveID) : bool {
     return $count > 0;
 }
 
-function getDB() :Medoo\Medoo {
+function getDB() : Medoo\Medoo {
     return (new Medoo\Medoo([
         'database_type' => 'mariadb',
         'database_name' => getenv('MYSQL_DATABASE'),
