@@ -25,7 +25,6 @@ $res = $client->get('http://live.nicovideo.jp/search', [
 ])->getBody()->getContents();
 
 if (mb_strpos($res, '<strong>バーチャルキャスト</strong> を含む 放送中の番組はございません') !== false) {
-    echo 'live is does not exits' . "\n";
     exit;
 }
 
