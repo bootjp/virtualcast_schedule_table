@@ -60,25 +60,21 @@ class APIStreamingTest extends \Codeception\TestCase\Test
 
     public function testStreamingWithStaticMethod()
     {
-        $counter = '____DummyCounter____' . uniqid();
-        $phpunit = '____PHPUnit___' . uniqid();
-        $class = '____DummyTestClass____' . uniqid();
-        $GLOBALS[$counter] = 0;
-        $GLOBALS[$phpunit] = $this;
-        eval('
-            class ' . $class . ' {
-                public static function process($status)
-                {
-                    ++$GLOBALS["' . $counter . '"];
-                    $GLOBALS["' . $phpunit . '"]->assertEquals((object)["text" => "hello"], $status);
-                    if ($GLOBALS["' . $counter . '"] === 3) {
-                        return false;
-                    }
+        $obj = new class($this) {
+            public static $i = 0;
+            public static $phpunit;
+            public static function process($status)
+            {
+                ++static::$i;
+                static::$phpunit->assertEquals((object)['text' => 'hello'], $status);
+                if (static::$i === 3) {
+                    return false;
                 }
             }
-        ');
-        $this->c->streaming('statuses/filter', "$class::process");
-        $this->assertEquals(3, $GLOBALS[$counter]);
+        };
+        $obj::$phpunit = $this;
+        $this->c->streaming('statuses/filter', [get_class($obj), 'process']);
+        $this->assertEquals(3, $obj::$i);
     }
 
     public function testStreamingWithInvokable()
