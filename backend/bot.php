@@ -59,6 +59,14 @@ foreach ($reserved as $index => $live) {
         break;
 
     case 'user':
+
+
+        $idMatch = [];
+        preg_match('/src=".+?(?<com_id>co[0-9]+).+?"/m', html_entity_decode($live->find('.provider-area')[0]->innerHtml, $idMatch);
+        if ($idMatch['com_id'] == 'co1918179') {
+            // SPAM TAG LOCK IGNORE.
+            continue;
+        }
         $rowOwner = html_entity_decode($live->find('.provider-name')[0]->innerHtml);
         $matches = [];
         preg_match('#(?<com_name>.+?) \((?<user_name>.+?)\)#', $rowOwner, $matches);
