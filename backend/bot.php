@@ -66,6 +66,7 @@ foreach ($reserved as $index => $live) {
         preg_match('/src=".+?(?<com_id>co[0-9]+).+?"/m', $provider, $idMatch);
         if ($idMatch['com_id'] == 'co1918179') {
             // SPAM TAG LOCK IGNORE.
+            unset ($result[$index]);
             continue 2;
         }
         $rowOwner = html_entity_decode($live->find('.provider-name')[0]->innerHtml);
