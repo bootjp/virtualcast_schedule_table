@@ -13,7 +13,7 @@ $client = new \GuzzleHttp\Client([
     ]
 ]);
 
-$res = $client->get('http://live.nicovideo.jp/search', [
+$res = $client->get('https://live.nicovideo.jp/search', [
     'query' => [
         'track' => '',
         'sort' => 'recent_r',
@@ -33,9 +33,9 @@ $dom = new PHPHtmlParser\Dom();
 $dom->load($res);
 
 /* @var $html PHPHtmlParser\Dom() */
-$html = $dom->find('.result-list')[0];
+$html = $dom->find('.searchPage-ProgramList')[0];
 
-$reserved = $html->find('.result-item');
+$reserved = $html->find('.searchPage-ProgramList_Item');
 /* @var $live PHPHtmlParser\Dom() */
 
 $result = [];
