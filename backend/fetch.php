@@ -29,26 +29,24 @@ foreach ($rowExistsIds as $id) {
     $exitsIds[$id['live_id']] = null;
 }
 
-$baseUri = 'http://live.nicovideo.jp/search';
+$baseUri = 'https://live.nicovideo.jp/search';
 $offSet = 0;
+// https://live.nicovideo.jp/search?keyword=%E3%83%90%E3%83%BC%E3%83%81%E3%83%A3%E3%83%AB%E3%82%AD%E3%83%A3%E3%82%B9%E3%83%88&status=reserved&sortOrder=recentDesc&isTagSearch=true
 $res = $client->get($baseUri, [
     'query' => [
-        'track' => '',
-        'sort' => 'recent',
-        'date' => '',
         'keyword' => 'バーチャルキャスト',
-        'filter' => ':reserved: :nocommunitygroup:',
-        'kind' => 'tags',
+        'status' => 'reserved',
+        'sortOrder' => 'recentDesc',
+        'isTagSearch' => 'true'
     ]
 ])->getBody()->getContents();
 
 $dom = new PHPHtmlParser\Dom();
 $dom->load($res);
-
-/* @var $html PHPHtmlParser\Dom() */
-$html = $dom->find('.result-list')[0];
-
-$reserved = $html->find('.result-item');
+$html = $dom->find('.searchPage-ProgramList')[0];
+var_dump($html);exit;
+$reserved = $dom->find('.searchPage\-ProgramList_Item');
+var_dump($res, $reserved);exit;
 /* @var $live PHPHtmlParser\Dom() */
 
 $result = [];
@@ -65,6 +63,8 @@ foreach ($reserved as $index => $live) {
     $time = str_replace('開始', '', $time);
     $result[$index]['start'] = DateTime::createFromFormat('Y/m/d H:i', $time, new DateTimeZone('Asia/Tokyo'))->format('Y-m-d H:i:s');
 
+
+    var_dump(result);exit;
     $provider = $live->find('.provider-label')[0]->getAttribute('data-provider-type');
     switch ($provider) {
     case 'official':
@@ -86,7 +86,6 @@ foreach ($reserved as $index => $live) {
     }
 
     $result[$index]['description'] = $live->find('.description-text')[0]->innerHtml;
-
 }
 
 foreach ($result as $live) {
