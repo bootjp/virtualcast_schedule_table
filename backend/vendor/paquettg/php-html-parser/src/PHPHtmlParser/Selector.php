@@ -87,7 +87,7 @@ class Selector
      */
     protected function parseSelectorString($selector)
     {
-        $matches = [];
+	    $matches = [];
         preg_match_all($this->pattern, trim($selector).' ', $matches, PREG_SET_ORDER);
 
         // skip tbody
