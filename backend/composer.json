@@ -3,6 +3,8 @@
     "guzzlehttp/guzzle": "^6.3",
     "paquettg/php-html-parser": "^1.7",
     "mpyw/cowitter": "^1.0",
-    "catfan/Medoo": "^1.5"
+    "catfan/Medoo": "^1.5",
+    "symfony/dom-crawler": "^4.3",
+    "symfony/css-selector": "^4.3"
   }
 }

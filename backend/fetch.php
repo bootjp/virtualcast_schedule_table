@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\DomCrawler\Crawler as DomCrawler;
+
 require_once __DIR__. '/vendor/autoload.php';
 
 $client = new \GuzzleHttp\Client([
@@ -41,52 +43,31 @@ $res = $client->get($baseUri, [
     ]
 ])->getBody()->getContents();
 
-$dom = new PHPHtmlParser\Dom();
-$dom->load($res);
-$html = $dom->find('.searchPage-ProgramList')[0];
-var_dump($html);exit;
-$reserved = $dom->find('.searchPage\-ProgramList_Item');
-var_dump($res, $reserved);exit;
-/* @var $live PHPHtmlParser\Dom() */
-
+$crawler = new DomCrawler($res);
+/** @var []DomCrawler $res */
+$res = $crawler->filter('.searchPage-Layout_Section')->first()->each(function (DomCrawler $node, $i) {
+    return $node->filter('.searchPage-ProgramList_Item');
+});
 $result = [];
-
-foreach ($reserved as $index => $live) {
-    $data = parse($live->innerHtml);
-    $result[$index]['title'] = $data['title'];
-    $result[$index]['live_id'] = $data['id'];
-
-    $str = $live->find('.elapsed-time')[0]->innerHtml;
-    $time = trim(strip_tags($str));
-    // 曜日を消す
-    $time = preg_replace('#\((.+?)\)#', ' ', $time);
-    $time = str_replace('開始', '', $time);
-    $result[$index]['start'] = DateTime::createFromFormat('Y/m/d H:i', $time, new DateTimeZone('Asia/Tokyo'))->format('Y-m-d H:i:s');
-
-
-    var_dump(result);exit;
-    $provider = $live->find('.provider-label')[0]->getAttribute('data-provider-type');
-    switch ($provider) {
-    case 'official':
-        $style = $live->find('.official-thumbnail')[0]->getAttribute('style'). "\n";;;
-        $matches = [];
-        preg_match('|background-image:url\((?<bg_url>.+?)\)|', $style, $matches);
-        $result[$index]['owner'] = '公式';
-        $result[$index]['image'] = $matches['bg_url'];
-        break;
-    case 'channel':
-        $result[$index]['owner'] = 'チャンネル';
-        $result[$index]['image'] = $live->find('.alt-thumbnail-provider-icon')[0]->getAttribute('src');
-        break;
-
-    case 'user':
-        $result[$index]['owner'] = $live->find('.provider-name')[0]->innerHtml;
-        $result[$index]['image'] = $live->find('.alt-thumbnail-provider-icon')[0]->getAttribute('src');
-        break;
-    }
-
-    $result[$index]['description'] = $live->find('.description-text')[0]->innerHtml;
+foreach ($res as  $index => $row) {
+    /** @var DomCrawler $row */
+    $row->each(function (DomCrawler $node, $i) use (&$result, $index) {
+        $result[$index + $i]['title'] = trim($node->filter('.searchPage-ProgramList_TitleLink')->text());
+        $result[$index + $i]['live_id'] = str_replace(
+            'watch/',
+            '',
+            $node->filter('.searchPage-ProgramList_TitleLink')->attr('href')
+        );
+        $time = $node->filter('.searchPage-ProgramList_DataText')->text();
+        $time = str_replace(' 開始 ', '', $time);
+        $result[$index + $i]['start'] = DateTime::createFromFormat('Y/m/d H:i', $time, new DateTimeZone('Asia/Tokyo'))->format('Y-m-d H:i:s');
+        $result[$index + $i]['owner'] = trim($node->filter('.searchPage-ProgramList_UserName')->text());
+        $result[$index + $i]['image'] = $node->filter('.searchPage-ProgramList_UserImage')->attr('src');
+    });
 }
+var_dump($result);
+exit;
+
 
 foreach ($result as $live) {
     try {

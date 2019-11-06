@@ -8,6 +8,10 @@ $baseDir = dirname($vendorDir);
 return array(
     'mpyw\\Cowitter\\' => array($vendorDir . '/mpyw/cowitter/src'),
     'mpyw\\Co\\' => array($vendorDir . '/mpyw/co/src'),
+    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
+    'Symfony\\Component\\DomCrawler\\' => array($vendorDir . '/symfony/dom-crawler'),
+    'Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
     'React\\Promise\\' => array($vendorDir . '/react/promise/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Medoo\\' => array($vendorDir . '/catfan/medoo/src'),
