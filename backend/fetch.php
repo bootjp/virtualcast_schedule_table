@@ -65,9 +65,6 @@ foreach ($res as  $index => $row) {
         $result[$index + $i]['image'] = $node->filter('.searchPage-ProgramList_UserImage')->attr('src');
     });
 }
-var_dump($result);
-exit;
-
 
 foreach ($result as $live) {
     try {
@@ -82,12 +79,5 @@ foreach ($result as $live) {
         $db->pdo->rollBack();
     }
 }
-
-function parse($item) {
-    $matches = [];
-    preg_match('#<a class="title" href=".+v=(?<id>.+?)&pp.+?">(?<title>.+?)</a>#', $item, $matches);
-    return $matches;
-}
-
 
 
