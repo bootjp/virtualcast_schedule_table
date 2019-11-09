@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__. '/vendor/autoload.php';
+use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 
 $client = new \GuzzleHttp\Client([
     'cookies' => true,
@@ -28,55 +29,35 @@ if (mb_strpos($res, '<strong>バーチャルキャスト</strong> を含む 放�
     exit;
 }
 
+$baseUri = 'https://live.nicovideo.jp/search';
+$offSet = 0;
+// https://live.nicovideo.jp/search?keyword=%E3%83%90%E3%83%BC%E3%83%81%E3%83%A3%E3%83%AB%E3%82%AD%E3%83%A3%E3%82%B9%E3%83%88&status=reserved&sortOrder=recentDesc&isTagSearch=true
+$res = $client->get($baseUri, [
+    'query' => [
+        'keyword' => 'バーチャルキャスト',
+        'status' => 'onair',
+        'sortOrder' => 'recentDesc',
+        'isTagSearch' => 'true'
+    ]
+])->getBody()->getContents();
 
-$dom = new PHPHtmlParser\Dom();
-$dom->load($res);
-
-/* @var $html PHPHtmlParser\Dom() */
-$html = $dom->find('.result-list')[0];
-
-$reserved = $html->find('.result-item');
-/* @var $live PHPHtmlParser\Dom() */
-
+$crawler = new DomCrawler($res);
+/** @var []DomCrawler $res */
+$res = $crawler->filter('.searchPage-Layout_Section')->first()->each(function (DomCrawler $node, $i) {
+    return $node->filter('.searchPage-ProgramList_Item');
+});
 $result = [];
-
-foreach ($reserved as $index => $live) {
-    $data = parse($live->innerHtml);
-    $result[$index]['title'] = html_entity_decode($data['title']);
-    $result[$index]['live_id'] = $data['id'];
-
-    $str = $live->find('.elapsed-time')[0]->innerHtml;
-    $time = trim(strip_tags($str));
-
-    $provider = $live->find('.provider-label')[0]->getAttribute('data-provider-type');
-    switch ($provider) {
-    case 'official':
-        $style = $live->find('.official-thumbnail')[0]->getAttribute('style'). "\n";;;
-        $result[$index]['owner'] = '公式';
-        break;
-    case 'channel':
-        $result[$index]['owner'] = 'チャンネル';
-        break;
-
-    case 'user':
-
-
-        $idMatch = [];
-        $provider = html_entity_decode($live->find('.provider-area')[0]->innerHtml);
-        preg_match('/src=".+?(?<com_id>co[0-9]+).+?"/m', $provider, $idMatch);
-        if ($idMatch['com_id'] == 'co1918179') {
-            // SPAM TAG LOCK IGNORE.
-            unset ($result[$index]);
-            continue 2;
-        }
-        $rowOwner = html_entity_decode($live->find('.provider-name')[0]->innerHtml);
-        $matches = [];
-        preg_match('#(?<com_name>.+?) \((?<user_name>.+?)\)#', $rowOwner, $matches);
-        $result[$index]['owner'] = ($matches['user_name'] . ' さん');
-        break;
-    }
-
-    $result[$index]['description'] = html_entity_decode($live->find('.description-text')[0]->innerHtml);
+foreach ($res as  $index => $row) {
+    /** @var DomCrawler $row */
+    $row->each(function (DomCrawler $node, $i) use (&$result, $index) {
+        $result[$index + $i]['title'] = trim($node->filter('.searchPage-ProgramList_TitleLink')->text());
+        $result[$index + $i]['live_id'] = str_replace(
+            'watch/',
+            '',
+            $node->filter('.searchPage-ProgramList_TitleLink')->attr('href')
+        );
+        $result[$index + $i]['owner'] = trim($node->filter('.searchPage-ProgramList_UserName')->text());
+    });
 }
 
 foreach ($result as $live) {
