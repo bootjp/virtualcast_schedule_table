@@ -67,6 +67,11 @@ foreach ($result as $live) {
         continue;
     }
 
+    // ignore spam user.
+    if ($live['owner'] === 'ちん・ぽこ'){
+        continue;
+    }
+
     try {
         $db = getDB();
         $db->pdo->beginTransaction();
