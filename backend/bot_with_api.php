@@ -4,7 +4,14 @@ require_once __DIR__. '/vendor/autoload.php';
 
 $client = new \GuzzleHttp\Client();
 
-$res = $client->get('https://api.virtualcast.jp/channels/ja/broadcast/list')->getBody()->getContents();
+$res = $client->get('https://api.virtualcast.jp/channels/ja/broadcast/list', [
+    'User-Agent'                => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
+    'Accept-Encoding'           => 'gzip, deflate, br',
+    'Accept-Language'           => 'ja,en-US;q=0.8,en;q=0.6',
+    'Accept'                    => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Cache-Control'             => 'max-age=0',
+])->getBody()->getContents();
+
 
 foreach (json_decode($res, true)['list'] as $live) {
     $liveID =  getLiveIDByURL($live['url']);
